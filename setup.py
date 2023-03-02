@@ -41,7 +41,7 @@ setup(
     author_email='mte90net@gmail.com',
     url='https://github.com/Mte90/django-pdb-extended',
     packages=('django_pdb_extended',
-              'django_pdb.templatetags'),
+              'django_pdb_extended.templatetags'),
     license='Public Domain',
     classifiers=[
         'Programming Language :: Python',
