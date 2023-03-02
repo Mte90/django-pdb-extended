@@ -22,7 +22,7 @@ Add it to your settings.py.
     # Put it towards the beginning, otherwise towards the end.
     INSTALLED_APPS = (
         ...
-        'django_pdb',
+        'django_pdb_extended',
         ...
     )
 
@@ -30,7 +30,7 @@ Add it to your settings.py.
     # PdbMiddleware only activates when settings.DEBUG is True.
     MIDDLEWARE_CLASSES = (
         ...
-        'django_pdb.middleware.PdbMiddleware',
+        'django_pdb_extended.middleware.PdbMiddleware',
     )
 
 Usage
