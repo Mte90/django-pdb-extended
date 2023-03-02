@@ -1,5 +1,5 @@
 from django import template
-from django_pdb.utils import has_ipdb
+from django_pdb_extended.utils import has_ipdb
 
 
 register = template.Library()

@@ -5,7 +5,7 @@ import pdb
 from django.conf import settings
 from django.core.exceptions import MiddlewareNotUsed
 
-from django_pdb.utils import get_ipdb, has_ipdb
+from django_pdb_extended.utils import get_ipdb, has_ipdb
 
 
 try:
