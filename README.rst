@@ -3,8 +3,10 @@ Django PDB
 
 Make debugging Django easier to the (break)point.
 
-This is a modded version based on https://github.com/cpontvieux-systra/django-pdb that add the support to Django 4.1. <br/>
-The other difference is that automatically the input in console goes to the breakpoint and ignores the start of every view. <br/>
+This is a modded version based on https://github.com/cpontvieux-systra/django-pdb that add the support to Django 4.1.
+
+The other difference is that automatically the input in console goes to the breakpoint and ignores the start of every view.
+
 Also doesn't have the support for commands as they crashes with the latest Django releases, so only the URL parameter is supported.
 
 Installation
