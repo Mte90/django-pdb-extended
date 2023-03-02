@@ -1,33 +1,25 @@
 Django PDB
 ==========
 
-Make debugging Django easier
-----------------------------
+Make debugging Django easier to the (break)point.
 
-Adding ``pdb.set_trace()`` to your source files every time you want to break into pdb sucks.
-
-Don't do that.
-
-Do this.
+This is a modded version based on [https://github.com/cpontvieux-systra/django-pdb](https://github.com/cpontvieux-systra/django-pdb) that add the support to Django 4.1.
+The other difference is that automatically the output in console goes to the breakpoint and ignores the start of every view.
+Also doesn't have the support for commands as crashes with the latest Django releases, so only the URL parameter is supported.
 
 Installation
 ------------
 
 Install using pip::
 
-    pip install django-pdb
+    pip install git+https://github.com/mte90/django-pdb-extended
 
 Add it to your settings.py.
-
-For Django before 1.7 it needs to be added AFTER any apps that override the
-`runserver` or `test` commands (includes south and django.contrib.staticfiles).
-
-For Django after 1.7 it needs to be added BEFORE them.
 
 .. code:: python
 
     # Order is important and depends on your Django version.
-    # With Django 1.7+ put it towards the beginning, otherwise towards the end.
+    # Put it towards the beginning, otherwise towards the end.
     INSTALLED_APPS = (
         ...
         'django_pdb',
@@ -56,73 +48,15 @@ This behavior is only enabled if ``settings.DEBUG = True``::
     Validating models...
 
     0 errors found
-    Django version 1.3, using settings 'testproject.settings'
+    Django version 4.1, using settings 'testproject.settings'
     Development server is running at http://127.0.0.1:8000/
     Quit the server with CONTROL-C.
 
     GET /test?pdb
-    function "myview" in testapp/views.py:7
-    args: ()
-    kwargs: {}
 
     > /Users/tom/github/django-pdb/testproject/testapp/views.py(8)myview()
     -> a = 1
     (Pdb)
-
-``manage.py runserver --pdb`` **or** ``manage.py runserver --ipdb``
-
-Drops into pdb/ipdb at the start of every view::
-
-    bash: testproject/manage.py runserver --pdb
-    Validating models...
-
-    0 errors found
-    Django version 1.3, using settings 'testproject.settings'
-    Development server is running at http://127.0.0.1:8000/
-    Quit the server with CONTROL-C.
-
-    GET /test
-    function "myview" in testapp/views.py:7
-    args: ()
-    kwargs: {}
-
-    > /Users/tom/github/django-pdb/testproject/testapp/views.py(7)myview()
-    -> a = 1
-    (Pdb)
-
-
-``manage.py test --pdb`` **or** ``manage.py test --ipdb``
-
-Drops into pdb/ipdb on test errors/failures::
-
-    bash: testproject/manage.py test testapp --pdb
-    Creating test database for alias 'default'...
-    E
-    ======================================================================
-    >>> test_error (testapp.tests.SimpleTest)
-    ----------------------------------------------------------------------
-    Traceback (most recent call last):
-      File "/Users/tom/github/django-pdb/testproject/testapp/tests.py", line 16, in test_error
-        one_plus_one = four
-    NameError: global name 'four' is not defined
-    ======================================================================
-
-    > /Users/tom/github/django-pdb/testproject/testapp/tests.py(16)test_error()
-    -> one_plus_one = four
-    (Pdb)
-
-
-Post mortem mode
-----------------
-
-``manage.py runserver --pm``
-
-Post mortem mode, drops into (i)pdb if an exception is raised in a view. This works only if there is
-no other app overriding ``runserver`` command.
-
-``POST_MORTEM = True``
-
-You can also add ```POST_MORTEM = True``` to your ```settings.py``` to enable this option even if other app overrides ```runserver```.
 
 Filter
 ------
@@ -153,13 +87,3 @@ Example::
     [11/May/2012 11:22:53] "GET /filter/ HTTP/1.1" 200 37
 
 This is useful to inspect a complex object that isn't behaving as expected or debug a filter.
-
-Other apps that override ``test``/``runserver``
------------------------------------------------
-
-``manage.py test --pdb`` works if you also have other apps that
-override the ``test`` command, as long as they use Python's unittest
-framework.
-
-Make sure to put ``django_pdb`` **after** any conflicting apps in
-``INSTALLED_APPS`` so that they have priority.

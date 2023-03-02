@@ -1,9 +1,6 @@
 from __future__ import print_function
 
-import inspect
-import os
 import pdb
-import sys
 
 from django.conf import settings
 from django.core.exceptions import MiddlewareNotUsed
@@ -66,21 +63,8 @@ class PdbMiddleware(parent):
         if not type_pdb:
             return
 
-        filename = inspect.getsourcefile(view_func)
-        basename = os.path.basename(filename)
-        dirname = os.path.basename(os.path.dirname(filename))
-        lines, lineno = inspect.getsourcelines(view_func)
-        temporary = True
-        cond = None
-        funcname = view_func.__name__
-
         print()
         print('{} {}'.format(request.method, request.get_full_path()))
-        print('function "{}" in {}/{}:{}'.format(funcname,
-              dirname, basename, lineno))
-        print('args: {}'.format(view_args))
-        print('kwargs: {}'.format(view_kwargs))
-        print()
 
         if type_pdb == 'ipdb' and has_ipdb():
             p = get_ipdb()
@@ -89,5 +73,4 @@ class PdbMiddleware(parent):
                 print('You do not install ipdb or ipython module')
             p = pdb.Pdb()
         p.reset()
-        p.set_break(filename, lineno + 1, temporary, cond, funcname)
-        sys.settrace(p.trace_dispatch)
+        p.onecmd('c')
